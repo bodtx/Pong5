@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="800" height="800" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script type="text/javascript">
+var player = {
+  color: "#00A",
+  x: 0,
+  y: 0,
+  width: 32,
+  height: 32,
+  draw: function() {
+    cxt.fillStyle = this.color;
+    cxt.fillRect(xpos, ypos, this.width, this.height);
+  }
+};
+
+var player2 = {
+  color: "#0AA",
+  x: 220,
+  y: 270,
+  width: 32,
+  height: 32,
+  draw: function() {
+    cxt.fillStyle = this.color;
+    cxt.fillRect(x, y, this.width, this.height);
+  }
+};
+
+i=0;
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+/*c.addEventListener("mousemove", function(e){
+                x=e.clientX;
+				y=e.clientY;
+            });*/
+window.addEventListener("keydown", function(e){
+	if(e.keyCode == 38) {/* Up arrow was pressed */
+		up=true;
+		}
+	if(e.keyCode == 40) {/* Down arrow was pressed */
+		down=true;
+		}
+	if(e.keyCode == 37) {/* Left arrow was pressed */
+		left=true;
+		}
+	if(e.keyCode == 39) {/* Left arrow was pressed */
+		right=true;
+		}
+
+});
+window.addEventListener("keyup", function(e){
+	
+	if(e.keyCode == 37) {/* Left arrow was pressed */
+		left=false;
+		}
+	if(e.keyCode == 38) {/* Up arrow was pressed */
+		up=false;
+		}
+	if(e.keyCode == 40) {/* Down arrow was pressed */
+		down=false;
+		}
+	if(e.keyCode == 39) {/* Left arrow was pressed */
+		right=false;
+		}
+	
+
+});
+var left=false;
+var right=false;
+var up=false;
+var down=false;
+
+var xpos=0;
+var ypos=0;
+var x=220;
+var y=270;
+function timer(){
+	
+	
+	cxt.clearRect ( 0 , 0 , 800 , 800 );
+	//cxt.fillStyle="#FF0000";//rouge
+	//cxt.fillRect(0+i%100,0+i%100,150,75);
+	//i++;
+	//cxt.fillRect(x,y,150,75);
+	if(left==true)
+		xpos=xpos-5;
+	if(right==true)
+		xpos=xpos+5;
+	if(up==true)
+		ypos=ypos-5;
+	if(down==true)
+		ypos=ypos+5;
+	player.draw();
+	player2.draw();
+	player.x=xpos;
+	player.y=ypos;
+//------------------------
+/*	cxt.save();
+
+
+	cxt.translate(c.width / 2, 0);
+	cxt.rotate(Math.PI/4);
+	
+	cxt.fillStyle="#0000FF";//bleu
+	cxt.fillRect(x,y,150,75);
+	cxt.restore();
+	cxt.translate(200,0);
+	cxt.fillStyle="#00FF00";//vert
+	cxt.fillRect(x,y,150,75);*/
+	if(collides(player,player2))
+	{
+		alert("boum");
+		xpos=0;
+		ypos=0;
+		x=220;
+		y=270;
+	}
+	setTimeout("timer()",33);
+}
+timer();
+
+function collides(a, b) {
+  return a.x < b.x + b.width &&
+         a.x + a.width > b.x &&
+         a.y < b.y + b.height &&
+         a.y + a.height > b.y;
+}
+
+</script>
+
+</body>
+</html>
