@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<canvas id="myCanvas" width="800" height="800" style="border:1px solid #c3c3c3;">
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #c3c3c3;">
 Your browser does not support the canvas element.
 </canvas>
 
@@ -28,6 +28,28 @@ var player2 = {
   draw: function() {
     cxt.fillStyle = this.color;
     cxt.fillRect(x, y, this.width, this.height);
+  }
+};
+
+var planet = {
+  color: "#0AA",
+  centerX: 220,
+  centerY: 270,
+  radius: 70,
+  score:0,
+  draw: function() {
+	cxt.beginPath();
+    cxt.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI, false);
+ 
+    cxt.fillStyle = "#8ED6FF";
+    cxt.fill();
+    cxt.lineWidth = 5;
+    cxt.strokeStyle = "black";
+    cxt.stroke();
+    /*cxt.fillStyle = this.color;
+	cxt.beginPath();
+    cxt.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);*/
+	//cxt.fillText(score, centerX, centerY);
   }
 };
 
@@ -82,7 +104,7 @@ var y=270;
 function timer(){
 	
 	
-	cxt.clearRect ( 0 , 0 , 800 , 800 );
+	cxt.clearRect ( 0 , 0 , 600 , 600 );
 	//cxt.fillStyle="#FF0000";//rouge
 	//cxt.fillRect(0+i%100,0+i%100,150,75);
 	//i++;
@@ -99,6 +121,8 @@ function timer(){
 	player2.draw();
 	player.x=xpos;
 	player.y=ypos;
+	
+	planet.draw();
 //------------------------
 /*	cxt.save();
 

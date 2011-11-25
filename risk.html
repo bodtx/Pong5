@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="320" height="480" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="http://178.170.121.207/Scripts/jquery.signalR.js"></script>
+<script src="http://178.170.121.207/signalr/hubs" type="test/js"></script>-->
+
+<script type="text/javascript">
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+
+var planet = {
+  color: "#0AA",
+  centerX: 220,
+  centerY: 270,
+  radius: 70,
+  score:0,
+  draw: function() {
+	cxt.beginPath();
+    cxt.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI, false);
+ 
+    cxt.fillStyle = "#8ED6FF";
+    cxt.fill();
+    cxt.lineWidth = 5;
+    cxt.strokeStyle = "black";
+    cxt.stroke();
+	cxt.closePath();
+	
+	cxt.lineWidth = 1;
+	cxt.font = 'italic 30px sans-serif';
+	cxt.textBaseline = 'top';
+	//cxt.fillText(this.score, this.centerX, this.centerY);
+	cxt.strokeText(this.score, this.centerX-this.radius/2, this.centerY-this.radius/2);
+
+
+	
+
+  }
+};
+
+
+
+
+/*function initPlanet(){
+
+
+}
+
+function addShip(){
+
+
+}
+
+
+
+function joinGame(){
+	galconHub.join("Alexis")
+		.fail(function(e) {alert(e);})
+		.done(function(e) {
+			clientId = $.connection.hub.clientId;
+			console.log("my Client ID" + clientId);};)
+}*/
+
+
+
+function timer(){
+	planet.score++;
+	planet.draw();
+	setTimeout("timer()",33);
+	
+	if(planet.score>100)
+	{
+		cxt.lineWidth = 2;
+	cxt.font = 'italic 40px sans-serif';
+	cxt.textBaseline = 'top';
+	//cxt.fillText(this.score, this.centerX, this.centerY);
+	cxt.strokeText("YOU WIN", 10, 10);
+	}
+}
+timer();
+
+
+</script>
+
+</body>
+</html>
