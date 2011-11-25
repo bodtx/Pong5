@@ -2,56 +2,87 @@
 <html>
 <body>
 
-<canvas id="myCanvas" width="600" height="600" style="border:1px solid #c3c3c3;">
+<canvas id="myCanvas" width="600" height="400" style="border:1px solid #c3c3c3;">
 Your browser does not support the canvas element.
 </canvas>
 
 <script type="text/javascript">
-var player = {
-  color: "#00A",
-  x: 0,
-  y: 0,
-  width: 32,
-  height: 32,
-  draw: function() {
-    cxt.fillStyle = this.color;
-    cxt.fillRect(xpos, ypos, this.width, this.height);
-  }
-};
+function Player() {
+  this.color="#00A";
+  this.x= 0;
+  this.y= 0;
+  this.width= 32;
+  this.height= 200;
+  this.draw=Draw;
+  
 
-var player2 = {
-  color: "#0AA",
-  x: 220,
-  y: 270,
-  width: 32,
-  height: 32,
-  draw: function() {
+
+
+  function Draw() {
     cxt.fillStyle = this.color;
-    cxt.fillRect(x, y, this.width, this.height);
+    cxt.fillRect(this.x, this.y, this.width, this.height);
   }
-};
+}
 
 var planet = {
   color: "#0AA",
-  centerX: 220,
-  centerY: 270,
-  radius: 70,
+  x: 220,
+  y: 270,
+  radius: 20,
+  width: 40,
+  height: 40,
+  
   score:0,
   draw: function() {
 	cxt.beginPath();
-    cxt.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI, false);
+    cxt.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
  
     cxt.fillStyle = "#8ED6FF";
     cxt.fill();
-    cxt.lineWidth = 5;
+    cxt.lineWidth = 2;
     cxt.strokeStyle = "black";
     cxt.stroke();
-    /*cxt.fillStyle = this.color;
-	cxt.beginPath();
-    cxt.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);*/
-	//cxt.fillText(score, centerX, centerY);
+	cxt.closePath();
+	
+	
+	
+
+
+	
+
   }
 };
+/*
+img = new Image();   // Create new img element   
+
+img.src = 'franck.jpeg'; // Set source path
+var planet = {
+  color: "#0AA",
+  x: 220,
+  y: 270,
+  radius: 20,
+  width: img.width,
+  height: img.height,
+  
+  score:0,
+  draw: function() {
+	cxt.beginPath();
+    cxt.drawImage(img, planet.x, planet.y)
+	cxt.closePath();
+	
+	
+	
+
+
+	
+
+  }
+};
+
+*/
+
+
+
 
 i=0;
 var c=document.getElementById("myCanvas");
@@ -97,32 +128,46 @@ var right=false;
 var up=false;
 var down=false;
 
-var xpos=0;
-var ypos=0;
-var x=220;
-var y=270;
+
+var col1=false;
+var col2=false;
+var player1 = new Player();
+var player2 = new Player();
+player1.x= 20;
+player1.y= 150;
+player2.x= 600-32-20;
+player2.y= 150;
+
+
 function timer(){
 	
 	
-	cxt.clearRect ( 0 , 0 , 600 , 600 );
+	cxt.clearRect ( 0 , 0 , 600 , 400 );
 	//cxt.fillStyle="#FF0000";//rouge
 	//cxt.fillRect(0+i%100,0+i%100,150,75);
 	//i++;
 	//cxt.fillRect(x,y,150,75);
 	if(left==true)
-		xpos=xpos-5;
+		player1.y=player1.y-5;
 	if(right==true)
-		xpos=xpos+5;
+		player1.y=player1.y+5;
 	if(up==true)
-		ypos=ypos-5;
+		player2.y=player2.y-5;
 	if(down==true)
-		ypos=ypos+5;
-	player.draw();
-	player2.draw();
-	player.x=xpos;
-	player.y=ypos;
+		player2.y=player2.y+5;
 	
+	player1.draw();
+	player2.draw();
 	planet.draw();
+	
+
+	
+
+
+	
+	
+
+	
 //------------------------
 /*	cxt.save();
 
@@ -136,21 +181,36 @@ function timer(){
 	cxt.translate(200,0);
 	cxt.fillStyle="#00FF00";//vert
 	cxt.fillRect(x,y,150,75);*/
-	if(collides(player,player2))
+	
+	if(collides(player1,planet))
 	{
-		alert("boum");
-		xpos=0;
-		ypos=0;
-		x=220;
-		y=270;
+		col1 = true;
+		col2 = false;
 	}
+	if(collides(player2,planet))
+	{
+		col2 = true;
+		col1 = false;
+	}
+	
+	
+	if(col1)
+	{
+		planet.x=planet.x+4;
+	}
+	else
+	{
+		planet.x=planet.x-4;
+	}
+	
+	
 	setTimeout("timer()",33);
 }
 timer();
 
 function collides(a, b) {
-  return a.x < b.x + b.width &&
-         a.x + a.width > b.x &&
+  return a.x < b.x-b.radius + b.width &&
+         a.x + a.width > b.x-b.radius &&
          a.y < b.y + b.height &&
          a.y + a.height > b.y;
 }
