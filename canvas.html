@@ -129,8 +129,10 @@ var up=false;
 var down=false;
 
 
-var col1=false;
+var col1=true;
 var col2=false;
+var colh=true;
+var colb=false;
 var player1 = new Player();
 var player2 = new Player();
 player1.x= 20;
@@ -165,42 +167,58 @@ function timer(){
 
 
 	
-	
-
-	
-//------------------------
-/*	cxt.save();
-
-
-	cxt.translate(c.width / 2, 0);
-	cxt.rotate(Math.PI/4);
-	
-	cxt.fillStyle="#0000FF";//bleu
-	cxt.fillRect(x,y,150,75);
-	cxt.restore();
-	cxt.translate(200,0);
-	cxt.fillStyle="#00FF00";//vert
-	cxt.fillRect(x,y,150,75);*/
-	
+	//rebond joueur1
 	if(collides(player1,planet))
 	{
 		col1 = true;
 		col2 = false;
+		if(planet.x<player1.x+player1.height)
+			colb=true;
+		else
+			colh=true;
+			
 	}
+	//rebond joueur2
 	if(collides(player2,planet))
 	{
 		col2 = true;
 		col1 = false;
 	}
+	//rebond bas
+	if(planet.y+planet.radius>=c.height)
+	{
+		colb=true;
+		colh=false;
+
+	}
+	//rebond haut
+		if(planet.y-planet.radius<=0)
+	{
+		colh=true;
+		colb=false;
+
+	}
+
 	
 	
 	if(col1)
 	{
 		planet.x=planet.x+4;
+		
+		
 	}
-	else
+	else  if(col2)
 	{
 		planet.x=planet.x-4;
+		
+	}
+	if(colb)
+	{
+		
+		planet.y=planet.y-4;
+	}else if(colh)
+	{
+		planet.y=planet.y+4;
 	}
 	
 	
