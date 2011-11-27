@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+<table>
+<tr>
+<td>
+<font size="36" color="#FF0000"><div id="scoreplayer1">0</div></font><font size="36" color="#0000FF"><div id="scoreplayer2">0</div></font>
+</td>
+</tr>
+<tr>
+<td>
 <canvas id="myCanvas" width="600" height="400" style="border:1px solid #c3c3c3;">
 Your browser does not support the canvas element.
 </canvas>
+</td>
+</tr>
+<tr>
+<td>
+<ul>
+<li>
+Taille balle: <input type="range" id="radiusIn" name="radiusIn" value="20" min="5" max="40" />
+</li>
+<li>
+Vitesse balle: <input type="range" id="speedIn" name="speedIn" value="4" min="1" max="10" />
+</li>
+<li>
+Taille joueur 1: <input type="range" id="player1SizeIn" name="player1SizeIn" value="200" min="50" max="200" />
+</li>
+<li>
+Taille joueur 2: <input type="range" id="player2SizeIn" name="player2SizeIn" value="200" min="5" max="200" />
+</li>
 
+</td>
+</tr>
+</table>
 <script type="text/javascript">
 function Player() {
   this.color="#00A";
   this.x= 0;
   this.y= 0;
-  this.width= 32;
+  this.width= 10;
   this.height= 200;
   this.draw=Draw;
   
@@ -25,7 +52,7 @@ function Player() {
 }
 
 var planet = {
-  color: "#0AA",
+  color: "#00FF00",
   x: 220,
   y: 270,
   radius: 20,
@@ -37,11 +64,11 @@ var planet = {
 	cxt.beginPath();
     cxt.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
  
-    cxt.fillStyle = "#8ED6FF";
+    cxt.fillStyle = this.color;
     cxt.fill();
-    cxt.lineWidth = 2;
-    cxt.strokeStyle = "black";
-    cxt.stroke();
+    //cxt.lineWidth = 2;
+    //cxt.strokeStyle = "black";
+    //cxt.stroke();
 	cxt.closePath();
 	
 	
@@ -92,41 +119,41 @@ var cxt=c.getContext("2d");
 				y=e.clientY;
             });*/
 window.addEventListener("keydown", function(e){
-	if(e.keyCode == 38) {/* Up arrow was pressed */
-		up=true;
+	if(e.keyCode == 38) {/* up1 arrow was pressed */
+		up1=true;
 		}
-	if(e.keyCode == 40) {/* Down arrow was pressed */
-		down=true;
+	if(e.keyCode == 40) {/* down1 arrow was pressed */
+		down1=true;
 		}
-	if(e.keyCode == 37) {/* Left arrow was pressed */
-		left=true;
+	if(e.keyCode == 37) {/* left1 arrow was pressed */
+		left1=true;
 		}
-	if(e.keyCode == 39) {/* Left arrow was pressed */
-		right=true;
+	if(e.keyCode == 39) {/* left1 arrow was pressed */
+		right1=true;
 		}
 
 });
 window.addEventListener("keyup", function(e){
 	
-	if(e.keyCode == 37) {/* Left arrow was pressed */
-		left=false;
+	if(e.keyCode == 37) {/* left1 arrow was pressed */
+		left1=false;
 		}
-	if(e.keyCode == 38) {/* Up arrow was pressed */
-		up=false;
+	if(e.keyCode == 38) {/* up1 arrow was pressed */
+		up1=false;
 		}
-	if(e.keyCode == 40) {/* Down arrow was pressed */
-		down=false;
+	if(e.keyCode == 40) {/* down1 arrow was pressed */
+		down1=false;
 		}
-	if(e.keyCode == 39) {/* Left arrow was pressed */
-		right=false;
+	if(e.keyCode == 39) {/* left1 arrow was pressed */
+		right1=false;
 		}
 	
 
 });
-var left=false;
-var right=false;
-var up=false;
-var down=false;
+var left1=false;
+var right1=false;
+var up1=false;
+var down1=false;
 
 
 var col1=true;
@@ -135,6 +162,9 @@ var colh=true;
 var colb=false;
 var player1 = new Player();
 var player2 = new Player();
+var score1=0;
+var score2=0;
+var speed=4;
 player1.x= 20;
 player1.y= 150;
 player1.color= "#FF0000";
@@ -151,17 +181,24 @@ function timer(){
 	//cxt.fillRect(0+i%100,0+i%100,150,75);
 	//i++;
 	//cxt.fillRect(x,y,150,75);
-	if(left==true)
+	if(left1==true)
 		player1.y=player1.y-5;
-	if(right==true)
+	if(right1==true)
 		player1.y=player1.y+5;
-	if(up==true)
+	if(up1==true)
 		player2.y=player2.y-5;
-	if(down==true)
+	if(down1==true)
 		player2.y=player2.y+5;
 	
+	player1.height=parseInt(document.getElementById("player1SizeIn").value);
 	player1.draw();
+	
+	player2.height=parseInt(document.getElementById("player2SizeIn").value);
 	player2.draw();
+	
+	planet.radius = parseInt(document.getElementById("radiusIn").value);
+	planet.width=planet.radius*2;
+	planet.height=planet.radius*2;
 	planet.draw();
 	
 
@@ -174,10 +211,22 @@ function timer(){
 	{
 		col1 = true;
 		col2 = false;
-		if(planet.x<player1.x+player1.height)
-			colb=true;
-		else
-			colh=true;
+		//if(planet.y<player1.y+player1.height/2)
+		
+		//angle inverse
+		if(left1)
+		{
+			colb= true;
+			colh= false;
+			
+		}
+		else if(right1)
+		{
+			colb= false;
+			colh= true;
+			
+		}
+
 			
 	}
 	//rebond joueur2
@@ -185,6 +234,19 @@ function timer(){
 	{
 		col2 = true;
 		col1 = false;
+		//angle inverse
+		if(up1)
+		{
+			colb= true;
+			colh= false;
+			
+		}
+		else if(down1)
+		{
+			colb= false;
+			colh= true;
+			
+		}
 	}
 	//rebond bas
 	if(planet.y+planet.radius>=c.height)
@@ -194,33 +256,48 @@ function timer(){
 
 	}
 	//rebond haut
-		if(planet.y-planet.radius<=0)
+	if(planet.y-planet.radius<=0)
 	{
 		colh=true;
 		colb=false;
 
 	}
+	
+	//score contre player1 gauche
+	if(planet.x<=0)
+	{
+		score2++;
+		 document.getElementById("scoreplayer2").innerHTML = score2;
+		planet.x=c.width/2;
+	}
+	//score contre player1 gauche
+	if(planet.x>=c.width)
+	{
+		score1++;
+		 document.getElementById("scoreplayer1").innerHTML = score1;
+		planet.x=c.width/2;
+	}
 
 	
-	
+	speed = parseInt(document.getElementById("speedIn").value);
 	if(col1)
 	{
-		planet.x=planet.x+4;
+		planet.x=planet.x+speed;
 		
 		
 	}
 	else  if(col2)
 	{
-		planet.x=planet.x-4;
+		planet.x=planet.x-speed;
 		
 	}
 	if(colb)
 	{
 		
-		planet.y=planet.y-4;
+		planet.y=planet.y-speed;
 	}else if(colh)
 	{
-		planet.y=planet.y+4;
+		planet.y=planet.y+speed;
 	}
 	
 	
