@@ -16,6 +16,9 @@
 <audio preload>
     <source src="pong.wav" type="audio/wav"/>
 </audio>
+<audio preload>
+    <source src="point.wav" type="audio/wav"/>
+</audio>
 	<font size="36" color="#FF0000"><div id="scoreplayer1">0</div>
 </td>
 <td>
@@ -197,6 +200,7 @@ var score1=0;
 var score2=0;
 var speed=4;
 var audioPong = document.getElementsByTagName("audio")[0];
+var audioPoint = document.getElementsByTagName("audio")[1];
 player1.x= 20;
 player1.y= 150;
 player1.color= "#FF0000";
@@ -300,16 +304,20 @@ function timer(){
 	//score contre player1 gauche
 	if(planet.x<=0)
 	{
+		audioPoint.play();
 		score2++;
 		 document.getElementById("scoreplayer2").innerHTML = score2;
 		planet.x=c.width/2;
+		
 	}
 	//score contre player1 gauche
 	if(planet.x>=c.width)
 	{
+		audioPoint.play();
 		score1++;
 		 document.getElementById("scoreplayer1").innerHTML = score1;
 		planet.x=c.width/2;
+		
 	}
 
 	
