@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+</head>
 
 <body>
 <table>
@@ -9,8 +13,8 @@
 <table>
 <tr>
 <td>
-<audio controls preload>
-    <source src="./song.mp3" />
+<audio preload>
+    <source src="pong.wav" type="audio/wav"/>
 </audio>
 	<font size="36" color="#FF0000"><div id="scoreplayer1">0</div>
 </td>
@@ -31,22 +35,36 @@ Your browser does not support the canvas element.
 <td>
 <ul>
 <li>
-Taille balle: <input type="range" id="radiusIn" name="radiusIn" value="20" min="5" max="40" />
+
+Taille balle: <div id="radiusIn"/> <!--<input type="range" id="radiusIn" name="radiusIn" value="20" min="5" max="40" />-->
 </li>
 <li>
-Vitesse balle: <input type="range" id="speedIn" name="speedIn" value="4" min="1" max="10" />
+Vitesse balle: <div id="speedIn"/> <!--<input type="range" id="speedIn" name="speedIn" value="4" min="1" max="10" />-->
 </li>
 <li>
-Taille joueur 1: <input type="range" id="player1SizeIn" name="player1SizeIn" value="200" min="50" max="200" />
+Taille joueur 1: <div id="player1SizeIn"/> <!--<input type="range" id="player1SizeIn" name="player1SizeIn" value="200" min="50" max="200" />-->
 </li>
 <li>
-Taille joueur 2: <input type="range" id="player2SizeIn" name="player2SizeIn" value="200" min="5" max="200" />
+Taille joueur 2: <div id="player2SizeIn"/> <!--<input type="range" id="player2SizeIn" name="player2SizeIn" value="200" min="5" max="200" />-->
 </li>
 
 </td>
 </tr>
 </table>
+<script>
+
+	 $(document).ready(function() {
+    $( "#radiusIn" ).slider({min:5,max:40, animate:true, value:15});
+	$( "#speedIn" ).slider({min:1,max:10, animate:true, value:6});
+	$( "#player1SizeIn" ).slider({min:50,max:200, animate:true, value:100});
+	$( "#player2SizeIn" ).slider({min:50,max:200, animate:true, value:100});
+	timer();
+  });
+</script>
 <script type="text/javascript">
+
+
+  
 function Player() {
   this.color="#00A";
   this.x= 0;
@@ -178,7 +196,7 @@ var player2 = new Player();
 var score1=0;
 var score2=0;
 var speed=4;
-var audio = new Audio("song.mp3");
+var audioPong = document.getElementsByTagName("audio")[0];
 player1.x= 20;
 player1.y= 150;
 player1.color= "#FF0000";
@@ -204,13 +222,13 @@ function timer(){
 	if(down1==true)
 		player2.y=player2.y+5;
 	
-	player1.height=parseInt(document.getElementById("player1SizeIn").value);
+	player1.height=$("#player1SizeIn").slider("value");
 	player1.draw();
 	
-	player2.height=parseInt(document.getElementById("player2SizeIn").value);
+	player2.height=$("#player2SizeIn").slider("value");
 	player2.draw();
 	
-	planet.radius = parseInt(document.getElementById("radiusIn").value);
+	planet.radius = $("#radiusIn").slider("value");
 	planet.width=planet.radius*2;
 	planet.height=planet.radius*2;
 	planet.draw();
@@ -223,6 +241,7 @@ function timer(){
 	//rebond joueur1
 	if(collides(player1,planet))
 	{
+		audioPong.play();
 		col1 = true;
 		col2 = false;
 		//if(planet.y<player1.y+player1.height/2)
@@ -246,6 +265,7 @@ function timer(){
 	//rebond joueur2
 	if(collides(player2,planet))
 	{
+		audioPong.play();
 		col2 = true;
 		col1 = false;
 		//angle inverse
@@ -290,11 +310,10 @@ function timer(){
 		score1++;
 		 document.getElementById("scoreplayer1").innerHTML = score1;
 		planet.x=c.width/2;
-		audio.play();
 	}
 
 	
-	speed = parseInt(document.getElementById("speedIn").value);
+	speed = $("#speedIn").slider("value");
 	if(col1)
 	{
 		planet.x=planet.x+speed;
@@ -316,9 +335,9 @@ function timer(){
 	}
 	
 	
-	setTimeout("timer()",33);
+	setTimeout("timer()",16);
 }
-timer();
+
 
 function collides(a, b) {
   return a.x < b.x-b.radius + b.width &&
