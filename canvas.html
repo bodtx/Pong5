@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
-<style>
-.now{
-	white-space: nowrap;
-}
-</style>
+
 
 <body>
 <table>
@@ -13,6 +9,9 @@
 <table>
 <tr>
 <td>
+<audio controls preload>
+    <source src="./song.mp3" />
+</audio>
 	<font size="36" color="#FF0000"><div id="scoreplayer1">0</div>
 </td>
 <td>
@@ -139,17 +138,17 @@ window.addEventListener("keydown", function(e){
 	if(e.keyCode == 40) {/* down1 arrow was pressed */
 		down1=true;
 		}
-	if(e.keyCode == 37) {/* left1 arrow was pressed */
+	if(e.keyCode == 65) {/* left1 arrow was pressed */
 		left1=true;
 		}
-	if(e.keyCode == 39) {/* left1 arrow was pressed */
+	if(e.keyCode == 87) {/* left1 arrow was pressed */
 		right1=true;
 		}
 
 });
 window.addEventListener("keyup", function(e){
 	
-	if(e.keyCode == 37) {/* left1 arrow was pressed */
+	if(e.keyCode == 65) {/* left1 arrow was pressed */
 		left1=false;
 		}
 	if(e.keyCode == 38) {/* up1 arrow was pressed */
@@ -158,7 +157,7 @@ window.addEventListener("keyup", function(e){
 	if(e.keyCode == 40) {/* down1 arrow was pressed */
 		down1=false;
 		}
-	if(e.keyCode == 39) {/* left1 arrow was pressed */
+	if(e.keyCode == 87) {/* left1 arrow was pressed */
 		right1=false;
 		}
 	
@@ -179,6 +178,7 @@ var player2 = new Player();
 var score1=0;
 var score2=0;
 var speed=4;
+var audio = new Audio("song.mp3");
 player1.x= 20;
 player1.y= 150;
 player1.color= "#FF0000";
@@ -290,6 +290,7 @@ function timer(){
 		score1++;
 		 document.getElementById("scoreplayer1").innerHTML = score1;
 		planet.x=c.width/2;
+		audio.play();
 	}
 
 	
