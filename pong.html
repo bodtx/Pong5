@@ -153,41 +153,56 @@ var cxt=c.getContext("2d");
 				y=e.clientY;
             });*/
 window.addEventListener("keydown", function(e){
-	if(e.keyCode == 38) {/* up1 arrow was pressed */
-		up1=true;
+	if(e.keyCode == 38) {/* up2  was pressed */
+		up2=true;
 		}
-	if(e.keyCode == 40) {/* down1 arrow was pressed */
-		down1=true;
+	if(e.keyCode == 40) {/* down2  was pressed */
+		down2=true;
 		}
-	if(e.keyCode == 65) {/* left1 arrow was pressed */
-		left1=true;
+	if(e.keyCode == 65) {/* a  was pressed */
+		a1=true;
 		}
-	if(e.keyCode == 87) {/* left1 arrow was pressed */
-		right1=true;
+	if(e.keyCode == 87) {/* w  was pressed */
+		w1=true;
+		}
+	if(e.keyCode == 83) {/* s  was pressed */
+		s1=true;
+		}
+	if(e.keyCode == 37) {/* left1  was pressed */
+		left2=true;
 		}
 
 });
 window.addEventListener("keyup", function(e){
 	
-	if(e.keyCode == 65) {/* left1 arrow was pressed */
-		left1=false;
+	if(e.keyCode == 65) {/* a  was pressed */
+		a1=false;
 		}
-	if(e.keyCode == 38) {/* up1 arrow was pressed */
-		up1=false;
+	if(e.keyCode == 38) {/* up2 arrow was pressed */
+		up2=false;
 		}
-	if(e.keyCode == 40) {/* down1 arrow was pressed */
-		down1=false;
+	if(e.keyCode == 40) {/* down2 arrow was pressed */
+		down2=false;
 		}
-	if(e.keyCode == 87) {/* left1 arrow was pressed */
-		right1=false;
+	if(e.keyCode == 87) {/* w  was pressed */
+		w1=false;
+		}
+	if(e.keyCode == 83) {/* s  was pressed */
+		s1=false;
+		}
+	if(e.keyCode == 37) {/* left   was pressed */
+		left2=false;
 		}
 	
 
 });
-var left1=false;
-var right1=false;
-var up1=false;
-var down1=false;
+var a1=false;
+var w1=false;
+var up2=false;
+var down2=false;
+var left2=false;
+var s1=false;
+
 
 
 var col1=true;
@@ -217,13 +232,13 @@ function timer(){
 	//cxt.fillRect(0+i%100,0+i%100,150,75);
 	//i++;
 	//cxt.fillRect(x,y,150,75);
-	if(left1==true)
+	if(a1==true)
 		player1.y=player1.y-5;
-	if(right1==true)
+	if(w1==true)
 		player1.y=player1.y+5;
-	if(up1==true)
+	if(up2==true)
 		player2.y=player2.y-5;
-	if(down1==true)
+	if(down2==true)
 		player2.y=player2.y+5;
 	
 	player1.height=$("#player1SizeIn").slider("value");
@@ -251,17 +266,23 @@ function timer(){
 		//if(planet.y<player1.y+player1.height/2)
 		
 		//angle inverse
-		if(left1)
+		if(a1)
 		{
 			colb= true;
 			colh= false;
 			
 		}
-		else if(right1)
+		else if(w1)
 		{
 			colb= false;
 			colh= true;
 			
+		}
+		//coup à plat
+		else if(s1)
+		{
+			colb= false;
+			colh=false;
 		}
 
 			
@@ -273,17 +294,23 @@ function timer(){
 		col2 = true;
 		col1 = false;
 		//angle inverse
-		if(up1)
+		if(up2)
 		{
 			colb= true;
 			colh= false;
 			
 		}
-		else if(down1)
+		else if(down2)
 		{
 			colb= false;
 			colh= true;
 			
+		}
+		//coup à plat
+		else if(left2)
+		{
+			colb= false;
+			colh=false;
 		}
 	}
 	//rebond bas
