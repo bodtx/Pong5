@@ -1,0 +1,18 @@
+Author: Alexis Krier
+PONG with HTML5 and some Jquery.
+
+INSTALL:
+Take all the file in a directory, open pong.html with a good browser ;)
+
+Player1:
+A Q for moving
+S to give a direction front forward to the ball.
+
+Player2:
+arrow up down for moving
+arrow left to give a direction front forward to the ball.
+
+Both player:
+Moving in the opposite direction of the ball during the collision make it to bounce in the opposite way :)
+
+Have fun
